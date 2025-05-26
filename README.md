@@ -221,12 +221,12 @@ Berdasarkan hasil pengujian pada 114 data uji, performa dari masing-masing model
 
 | Model | Accuracy | F1-Score (Kelas 0) | Precision (Kelas 0) | Recall (Kelas 0) | F1-Score (Kelas 1) | Precision (Kelas 1) | Recall (Kelas 1) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Random Forest** | **0.9736842105263158** | **0.9774436090225563** | 0.9701492537313433 | 0.9848484848484849 | **0.968421052631579** | 0.9787234042553191 | 0.9583333333333334 |
-| **Logistic Regression**| **0.9736842105263158** | **0.9774436090225563** | 0.9701492537313433 | 0.9848484848484849 | **0.968421052631579** | 0.9787234042553191 | 0.9583333333333334 |
-| K-Nearest Neighbor | 0.9649122807017544 | 0.9705882352941176 | 0.9428571428571428 | 1.0 | 0.9565217391304348 | 1.0 | 0.9166666666666666 |
-| Gradient Boosting | 0.9649122807017544 | 0.9705882352941176 | 0.9428571428571428 | 1.0 | 0.9565217391304348 | 1.0 | 0.9166666666666666 |
-| Support Vector Machine| 0.956140350877193 | 0.9624060150375939 | 0.9552238805970149 | 0.9696969696969697| 0.9473684210526315 | 0.9574468085106383 | 0.9375 |
-| Gaussian Naive Bayes | 0.9298245614035088 | 0.9393939393939394 | 0.9393939393939394 | 0.9393939393939394| 0.9166666666666666 | 0.9166666666666666 | 0.9166666666666666 |
+| **Random Forest** | **0.973684** | **0.977778** | 0.956522 | 1.000000 | **0.967742** | 1.000000 | 0.937500 |
+| **Logistic Regression**| **0.973684** | **0.977444** | 0.970149 | 0.984848 | **0.968421** | 0.978723 | 0.958333 |
+| K-Nearest Neighbor | 0.964912 | 0.970588 | 0.942857 | 1.000000 | 0.956522 | 1.000000 | 0.916667 |
+| Gradient Boosting | 0.964912 | 0.970588 | 0.942857 | 1.000000 | 0.956522 | 1.000000 | 0.916667 |
+| Support Vector Machine| 0.956140 | 0.962406 | 0.955224 | 0.969697 | 0.947368 | 0.957447 | 0.937500 |
+| Gaussian Naive Bayes | 0.929825 | 0.939394 | 0.939394 | 0.939394 | 0.916667 | 0.916667 | 0.916667 |
 
 
 ### **Apakah solusi yang dikembangkan sudah menjawab setiap problem statement, berhasil mencapai seluruh goals yang diharapkan, dan memberikan dampak sesuai dengan solusi yang direncanakan? Jelaskan?**
@@ -236,4 +236,4 @@ Berdasarkan hasil pengujian pada 114 data uji, performa dari masing-masing model
 
 
 ## **Kesimpulan**
-Dari proyek yang telah dilaksanakan, dapat disimpulkan bahwa *machine learning* dapat diterapkan secara efektif untuk memprediksi diagnosis kanker payudara dengan akurasi yang sangat tinggi. Di antara enam model yang dievaluasi, **Random Forest** dan **Logistic Regression** menjadi yang paling unggul dengan performa identik, mencapai akurasi sebesar 0.9736842105263158 pada data uji. Keduanya hanya salah mengklasifikasikan 3 dari 114 kasus uji. Tingkat akurasi yang tinggi ini menegaskan bahwa solusi prediktif berbasis data dapat menjadi aset berharga dalam bidang medis untuk mendukung deteksi dini kanker payudara.
+Dari proyek yang telah dilaksanakan, dapat disimpulkan bahwa *machine learning* dapat diterapkan secara efektif untuk memprediksi diagnosis kanker payudara dengan akurasi yang sangat tinggi. Di antara enam model yang dievaluasi, **Random Forest** dan **Logistic Regression** menjadi yang paling unggul dengan performa identik, mencapai akurasi sebesar 0.973684 pada data uji. Keduanya hanya salah mengklasifikasikan 3 dari 114 kasus uji. Tingkat akurasi yang tinggi ini menegaskan bahwa solusi prediktif berbasis data dapat menjadi aset berharga dalam bidang medis untuk mendukung deteksi dini kanker payudara.
