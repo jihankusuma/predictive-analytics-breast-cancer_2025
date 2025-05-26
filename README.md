@@ -1,200 +1,239 @@
-## **Laporan Proyek Predictive Analytics: Breast Cancer**
+# **Laporan Proyek Machine Learning - Jihan Kusumawardhani**
 
-**Nama:** Jihan Kusumawardhani
-**Email:** jihankusumawwardhani@gmail.com
-**ID Dicoding:** jihankusumawardhani
+## **Domain Proyek**
+Kanker payudara adalah salah satu masalah kesehatan global yang paling signifikan, menjadi salah satu penyebab utama kematian akibat kanker pada wanita. Deteksi dini merupakan faktor krusial untuk meningkatkan tingkat kelangsungan hidup dan keberhasilan pengobatan. Dengan memanfaatkan kemajuan dalam *machine learning*, kita dapat mengembangkan sistem prediktif untuk membantu para profesional medis dalam mendiagnosis tumor payudara secara akurat berdasarkan data pengukuran sel, sehingga mempercepat proses diagnosis dan mengurangi potensi kesalahan manusia.
 
-### **Domain Proyek**
+## **Business Understanding**
+Bagian laporan ini mencakup:
 
------
- **1. Latar Belakang**
+### **Problem Statements**
+Menjelaskan pernyataan masalah latar belakang:
+* Bagaimana cara membangun sebuah model *machine learning* yang mampu memprediksi secara akurat apakah sebuah tumor payudara bersifat ganas (*Malignant*) atau jinak (*Benign*) berdasarkan fitur-fitur pengukuran seluler?
+* Di antara berbagai algoritma klasifikasi yang ada, manakah yang memberikan performa paling optimal untuk dataset kanker payudara ini?
 
-Kanker payudara merupakan salah satu tantangan kesehatan global yang paling signifikan pada era modern, menempati posisi teratas sebagai jenis kanker dengan insiden tertinggi di dunia. Data statistik terkini dari Proyek GLOBOCAN oleh International Agency for Research on Cancer (IARC) menunjukkan bahwa kanker payudara memiliki beban kasus baru tertinggi, menggarisbawahi urgensi pengembangan metode diagnosis dan penanganan yang lebih efektif [[1](https://doi.org/10.1002/cac2.12207)]. Dalam menghadapi tantangan ini, deteksi pada stadium dini menjadi pilar fundamental yang secara drastis meningkatkan efektivitas pengobatan dan angka harapan hidup pasien. Diagnosis yang akurat dan tepat waktu memungkinkan intervensi medis dilakukan pada stadium awal, di mana terapi cenderung lebih efektif dan tidak terlalu invasif, sehingga secara langsung meningkatkan kualitas hidup pasien.
+### **Goals**
+Menjelaskan tujuan dari pernyataan masalah:
+* Membangun beberapa model klasifikasi untuk memprediksi diagnosis kanker payudara.
+* Mengevaluasi dan membandingkan akurasi serta metrik relevan lainnya dari setiap model untuk mengidentifikasi algoritma yang paling efektif.
 
-Masalah fundamental yang perlu diselesaikan dalam alur diagnosis konvensional adalah ketergantungan pada interpretasi citra patologis oleh manusia, yang secara inheren memiliki keterbatasan. Proses ini tidak hanya memakan waktu tetapi juga rentan terhadap variabilitas antar-pengamat dan potensi kelelahan, yang dapat memengaruhi akurasi dan konsistensi diagnosis [[2](https://www.google.com/search?q=https://doi.org/10.1093/jbi/wbac029)]. Untuk mengatasi tantangan ini, bidang *Artificial Intelligence* (AI), khususnya *Machine Learning* (ML), menawarkan sebuah paradigma baru. Algoritma ML dapat dikembangkan untuk menganalisis secara objektif dan kuantitatif fitur-fitur sitologi yang kompleks dari sampel biopsi. Sistem ini berfungsi sebagai alat bantu keputusan klinis (*Clinical Decision Support System*) yang kuat, membantu ahli patologi dengan menyediakan analisis prediktif yang konsisten dan berbasis data [[3](https://www.google.com/search?q=https://doi.org/10.1093/jbi/wbac029)].
+### **Solution statements**
+* Menggunakan beberapa algoritma klasifikasi seperti Random Forest, K-Nearest Neighbor (KNN), Support Vector Machine (SVM), Gradient Boosting, Logistic Regression, dan Gaussian Naive Bayes.
+* Metrik yang digunakan untuk evaluasi adalah *accuracy*, *precision*, *recall*, dan *F1-score* yang diambil dari *classification report*.
 
-Berbagai penelitian mutakhir secara konsisten menunjukkan bahwa model *machine learning*, terutama yang berbasis *ensemble learning* seperti Gradient Boosting dan Random Forest, serta model-model lain seperti Support Vector Machines (SVM), mampu mencapai tingkat akurasi yang sangat tinggi dalam tugas klasifikasi tumor payudara. Dengan memanfaatkan data historis yang kaya akan fitur, model-model ini dapat mempelajari pola-pola subtil yang membedakan antara sel ganas dan jinak. Pengembangan model prediktif yang andal tidak hanya berpotensi mempercepat alur kerja diagnostik tetapi juga meningkatkan akurasi secara keseluruhan, yang pada akhirnya berkontribusi pada penanganan pasien yang lebih baik. Proyek ini secara spesifik bertujuan untuk mengimplementasikan dan mengevaluasi serangkaian model ML untuk menciptakan sebuah sistem prediktif yang robusta dan akurat untuk klasifikasi kanker payudara.
+## **Data Understanding**
+Dataset yang digunakan adalah "Breast Cancer Wisconsin (Diagnostic) Data Set" yang diperoleh dari platform Kaggle. Dataset ini berisi fitur-fitur yang diekstraksi dari citra digital aspirasi jarum halus (*Fine Needle Aspiration* - FNA) dari massa payudara.
 
-**Referensi:**
+### **URL Dataset**
+Link Dataset : [https://www.kaggle.com/datasets/yasserh/breast-cancer-dataset](https://www.kaggle.com/datasets/yasserh/breast-cancer-dataset)
 
-[1] Lei, S., Zheng, R., Zhang, S., Wang, S., Chen, R., Sun, K., & He, J. (2021). Global patterns of breast cancer incidence and mortality: A population-based cancer registry data analysis from 2000 to 2020. *Cancer Communications, 41*(11), 1183–1194. [https://doi.org/10.1002/cac2.12207](https://doi.org/10.1002/cac2.12207)
+### **Jumlah Baris dan Kolom**
+Dataset ini memiliki 569 baris data dan 32 kolom.
 
-[2] Ben-Cohen, A., Klang, E., & Raskin, S. P. (2022). The role of artificial intelligence in the evaluation of breast imaging. *Journal of Breast Imaging, 4*(4), 345–353. [https://doi.org/10.1093/jbi/wbac029](https://www.google.com/search?q=https://doi.org/10.1093/jbi/wbac029)
+### **Kondisi**
+Kondisi dataset sangat baik, terbukti dengan tidak adanya nilai yang hilang (*missing value*) pada seluruh kolom. Dataset ini terdiri dari 31 kolom numerik (30 `float64` dan 1 `int64`) dan 1 kolom `object` yaitu `diagnosis` yang menjadi target prediksi.
 
-[3] Ayon, S. I., & Islam, M. M. (2023). Breast Cancer Detection Using Machine Learning Approaches: A Comparative Study. *Bioengineering, 10*(2), 263. [https://doi.org/10.3390/bioengineering10020263](https://doi.org/10.3390/bioengineering10020263)
+### **Variabel-variabel pada dataset adalah sebagai berikut:**
+* `diagnosis`: Variabel target yang menunjukkan hasil diagnosis (M = Malignant/Ganas, B = Benign/Jinak).
+* `radius_mean`: Rata-rata jari-jari dari inti sel tumor.
+* `texture_mean`: Rata-rata tekstur, diukur dari standar deviasi nilai *grayscale*.
+* `perimeter_mean`: Rata-rata keliling inti sel.
+* `area_mean`: Rata-rata luas inti sel.
+* `smoothness_mean`: Rata-rata kehalusan kontur inti sel.
+* `compactness_mean`: Rata-rata tingkat kepadatan inti sel.
+* `concavity_mean`: Rata-rata tingkat kecekungan pada kontur inti sel.
+* `concave points_mean`: Rata-rata jumlah titik cekung pada kontur.
+* `symmetry_mean`: Rata-rata simetri inti sel.
+* `fractal_dimension_mean`: Rata-rata dimensi fraktal dari kontur.
+* Fitur lainnya dengan akhiran `_se` (*standard error*) dan `_worst` (nilai terburuk) adalah pengukuran statistik turunan dari 10 fitur utama di atas.
 
+## **Data Preparation**
+Pada bagian ini, dilakukan beberapa teknik persiapan data secara berurutan sebagai berikut:
+* **Encoding Variabel Kategorikal**: Melakukan pemetaan (*mapping*) pada kolom target `diagnosis`, di mana nilai 'B' diubah menjadi 0 dan 'M' menjadi 1 agar dapat diproses oleh model.
+* **Pembagian Data**: Memisahkan data menjadi data latih dan data uji dengan rasio 80:20 menggunakan `train_test_split`. Dari total 569 sampel, 455 dialokasikan untuk pelatihan dan 114 untuk pengujian.
+* **Standardisasi**: Menerapkan `StandardScaler` pada data fitur (data latih dan uji) untuk menyamakan skala nilai antar fitur, yang penting untuk performa model seperti SVM dan Logistic Regression.
 
+## **Modeling**
+Model yang digunakan untuk proyek ini dijelaskan secara rinci sebagai berikut.
 
+### **1. Logistic Regression**
+Logistic Regression adalah metode klasifikasi statistik yang digunakan untuk memprediksi hasil biner (dua kelas). Model ini bekerja dengan menerapkan fungsi logistik (sigmoid) pada kombinasi linear dari fitur-fitur input untuk menghasilkan probabilitas.
 
-### **Business Understanding**
------
-#### **1. Problem Statements**
+#### **Cara Kerja**
+Fungsi Logistik (Sigmoid): Logistic regression menggunakan fungsi logistik untuk memetakan hasil regresi linear ke dalam rentang probabilitas antara 0 dan 1. Proses pelatihan melibatkan pencarian bobot (*weights*) dan bias yang meminimalkan fungsi kerugian (*loss function*), yang biasanya menggunakan *binary cross-entropy loss*.
 
-1.  Bagaimana cara merancang sebuah alur kerja *machine learning end-to-end*, mulai dari persiapan data hingga evaluasi model, untuk membangun sebuah sistem klasifikasi yang mampu membedakan secara akurat antara tumor payudara jinak (*Benign*) dan ganas (*Malignant*) berdasarkan fitur-fitur numerik yang diekstraksi dari pemeriksaan sitologi?
-2.  Dengan mempertimbangkan keragaman algoritma klasifikasi yang ada, bagaimana cara melakukan penilaian kinerja yang objektif dan sistematis untuk menentukan model manakah yang paling superior dan andal untuk dataset spesifik ini, terutama ketika mempertimbangkan metrik evaluasi yang paling kritikal untuk aplikasi medis seperti *recall* dan F1-score?
+$$P(Y=1) = \frac{1}{1 + e^{-(\beta_0 + \beta_1X_1 + ... + \beta_nX_n)}}$$
 
-#### **2. Goals**
+#### **Parameter**
+* **Koefisien (weights)**: Parameter yang menentukan seberapa besar pengaruh setiap fitur input terhadap prediksi output. Nilai koefisien yang besar menunjukkan pengaruh yang kuat.
+* **Bias (intercept)**: Parameter tambahan yang memungkinkan model untuk memiliki fleksibilitas dan tidak harus melewati titik asal (0,0).
+* **Solver**: Algoritma yang digunakan dalam proses optimisasi untuk menemukan parameter terbaik (misalnya, 'liblinear', 'lbfgs').
 
-1.  Mengembangkan model klasifikasi prediktif yang mampu mencapai kinerja yang sangat tinggi, dengan target spesifik F1-Score di atas 0.95 pada kelas "Ganas", yang mengindikasikan keseimbangan yang baik antara presisi dan sensitivitas, serta Akurasi di atas 95%.
-2.  Menghasilkan analisis komparatif yang mendalam dari enam algoritma *machine learning* yang berbeda untuk mengidentifikasi model tunggal terbaik yang dapat dijustifikasi secara empiris sebagai solusi paling optimal, dengan mempertimbangkan semua aspek kinerjanya pada data uji.
+#### **Kelebihan**
+* Sangat cepat, efisien secara komputasi, dan tidak memerlukan banyak sumber daya.
+* Hasilnya mudah diinterpretasikan karena koefisien dapat menjelaskan hubungan antara setiap fitur dengan probabilitas hasil.
+* Berfungsi sangat baik untuk masalah yang dapat dipisahkan secara linear.
 
-#### **3. Solution Statement**
+#### **Kekurangan**
+* Cenderung memiliki performa yang kurang baik pada masalah dengan hubungan non-linear yang kompleks.
+* Rentan terhadap *underfitting* jika batas keputusan antar kelas terlalu rumit.
 
-Untuk mencapai tujuan yang telah ditetapkan, diajukan dua pendekatan solusi strategis yang akan diimplementasikan dan diukur kinerjanya:
+### **2. Random Forest**
+Random Forest adalah algoritma *ensemble learning* yang membangun banyak pohon keputusan (*decision trees*) pada berbagai sub-sampel dari dataset dan menggunakan *voting* untuk meningkatkan akurasi prediksi dan mengontrol *overfitting*.
 
-1.  **Pendekatan Multi-Algoritma untuk Perbandingan Komprehensif:** Mengimplementasikan dan mengevaluasi enam algoritma klasifikasi yang mewakili paradigma pemodelan yang berbeda (linear, berbasis jarak, *ensemble*, dan probabilistik). Pendekatan ini memastikan bahwa solusi akhir tidak bias terhadap satu jenis model dan dipilih dari serangkaian kandidat yang kuat, sehingga meningkatkan robustisitas hasil.
-2.  **Pemilihan Model Berbasis Metrik Evaluasi Kritis:** Melakukan seleksi model terbaik berdasarkan evaluasi kuantitatif yang ketat menggunakan serangkaian metrik yang dapat diukur (Akurasi, Presisi, *Recall*, dan F1-Score). Keputusan akhir akan sangat dipengaruhi oleh kinerja pada metrik *Recall* untuk kelas ganas, sejalan dengan tujuan untuk meminimalkan risiko *false negative* yang sangat berbahaya dalam konteks klinis.
+#### **Cara Kerja**
+* **Bootstrap Aggregating (Bagging)**: Algoritma ini membuat banyak dataset baru dengan mengambil sampel secara acak dengan pengulangan (*with replacement*) dari dataset asli. Setiap dataset *bootstrap* ini digunakan untuk melatih satu pohon keputusan.
+* **Pembangunan Pohon Keputusan dengan Fitur Acak**: Saat membangun setiap pohon, pada setiap *split* atau percabangan, model hanya mempertimbangkan sebagian kecil fitur yang dipilih secara acak, bukan semua fitur. Ini memastikan bahwa pohon-pohon yang dibangun bervariasi.
+* **Voting/Averaging**: Setelah semua pohon selesai dilatih, Random Forest menggabungkan hasil prediksi dari seluruh pohon. Untuk klasifikasi (seperti pada proyek ini), prediksi akhir adalah kelas yang paling banyak dipilih (*majority vote*) oleh semua pohon.
 
-### **Data Understanding**
------
-Data yang dianalisis dalam proyek ini adalah **Wisconsin Breast Cancer Dataset**, sebuah dataset kanonikal yang sangat populer untuk penelitian di bidang klasifikasi medis.
+#### **Parameter**
+* **n\_estimators**: Jumlah pohon keputusan yang akan dibangun dalam hutan. Semakin banyak pohon, semakin stabil hasilnya, namun waktu komputasi juga meningkat.
+* **max\_features**: Jumlah maksimum fitur yang akan dipertimbangkan untuk setiap *split* pada pohon.
+* **max\_depth**: Kedalaman maksimum setiap pohon. Ini membatasi jumlah *split* yang dapat dilakukan, membantu mengontrol *overfitting*.
+* **min\_samples\_split**: Jumlah minimum sampel yang diperlukan untuk membagi sebuah *node*.
+* **min\_samples\_leaf**: Jumlah minimum sampel yang harus ada di sebuah daun (*leaf node*) setelah *split*.
 
-  * **Sumber Data:** Dataset ini diunduh dari platform Kaggle, yang merupakan repositori data populer yang bersumber asli dari UCI Machine Learning Repository. Tautan unduh: [https://www.kaggle.com/datasets/yasserh/breast-cancer-dataset](https://www.kaggle.com/datasets/yasserh/breast-cancer-dataset)
+#### **Kelebihan**
+* Menghasilkan akurasi yang sangat tinggi dan merupakan salah satu algoritma klasifikasi terbaik.
+* Sangat kuat terhadap *overfitting* berkat proses *bagging* dan pemilihan fitur acak.
+* Mampu menangani data dalam jumlah besar dengan ribuan fitur tanpa perlu melakukan seleksi fitur.
+
+#### **Kekurangan**
+* Cenderung merupakan model *black box*, artinya sulit untuk menginterpretasikan bagaimana model membuat prediksi secara spesifik.
+* Membutuhkan sumber daya komputasi dan memori yang lebih besar dibandingkan model tunggal.
+
+### **3. Support Vector Machine (SVM)**
+SVM adalah algoritma klasifikasi yang bertujuan untuk menemukan *hyperplane* terbaik dalam ruang N-dimensi (N adalah jumlah fitur) yang secara jelas memisahkan titik-titik data ke dalam kelas-kelas yang berbeda dengan margin semaksimal mungkin.
+
+#### **Cara Kerja**
+* **Hyperplane dan Margin**: SVM mencari sebuah batas keputusan (*hyperplane*) yang tidak hanya memisahkan dua kelas, tetapi juga memiliki jarak (margin) yang paling besar ke titik data terdekat dari masing-masing kelas.
+* **Support Vectors**: Titik-titik data yang berada tepat di batas margin disebut *support vectors*. Titik-titik inilah yang menentukan posisi dan orientasi dari *hyperplane*.
+* **Kernel Trick**: Untuk data yang tidak dapat dipisahkan secara linear, SVM menggunakan fungsi *kernel* (misalnya Linear, RBF, Polinomial) untuk memetakan data ke ruang dimensi yang lebih tinggi di mana pemisahan linear menjadi mungkin.
+
+#### **Parameter**
+* **C (Regularization parameter)**: Mengontrol keseimbangan antara memaksimalkan margin dan meminimalkan kesalahan klasifikasi. Nilai C yang kecil menciptakan margin yang besar namun mengizinkan beberapa kesalahan klasifikasi, sementara nilai C yang besar mencoba mengklasifikasikan semua sampel dengan benar yang berisiko *overfitting*.
+* **Kernel**: Fungsi yang digunakan untuk mengubah data. Pilihan kernel ('linear', 'rbf', 'poly') sangat menentukan performa model.
+* **Gamma**: Parameter untuk kernel non-linear (seperti RBF). Gamma mendefinisikan seberapa jauh pengaruh dari satu sampel pelatihan. Nilai gamma yang tinggi berarti pengaruhnya dekat, yang dapat menyebabkan batas keputusan yang lebih kompleks dan berisiko *overfitting*.
+
+#### **Kelebihan**
+* Efektif dalam ruang berdimensi tinggi, bahkan jika jumlah dimensi lebih besar dari jumlah sampel.
+* Hemat memori karena hanya subset dari titik pelatihan (*support vectors*) yang digunakan dalam fungsi keputusan.
+* Sangat serbaguna berkat berbagai pilihan fungsi *kernel*.
+
+#### **Kekurangan**
+* Tidak cocok untuk dataset yang sangat besar karena waktu pelatihannya bisa sangat lama (kompleksitas $O(n^3)$ atau $O(n^2)$).
+* Performa sangat bergantung pada pemilihan parameter C dan jenis *kernel* yang tepat.
+
+### **4. K-Nearest Neighbors (KNN)**
+KNN adalah algoritma non-parametrik sederhana yang mengklasifikasikan data baru berdasarkan mayoritas kelas dari 'k' tetangga terdekatnya di ruang fitur.
+
+#### **Cara Kerja**
+* **Penyimpanan Data**: KNN menyimpan seluruh dataset pelatihan selama fase "pelatihan".
+* **Perhitungan Jarak**: Saat memprediksi data baru, algoritma menghitung jarak (misalnya, Jarak Euclidean) antara titik data baru tersebut dengan semua titik data dalam dataset pelatihan.
+* **Menemukan Tetangga**: Algoritma mengidentifikasi 'k' titik data pelatihan dengan jarak terpendek (tetangga terdekat).
+* **Voting Kelas**: Titik data baru kemudian diklasifikasikan ke dalam kelas yang paling umum (mayoritas) di antara 'k' tetangga terdekat tersebut.
+
+#### **Parameter**
+* **n\_neighbors (k)**: Jumlah tetangga terdekat yang akan digunakan untuk *voting*. Ini adalah parameter paling krusial.
+* **metric**: Metrik jarak yang digunakan untuk mengukur kedekatan antar titik data (misalnya, 'euclidean', 'manhattan').
+* **weights**: Bobot yang diberikan pada setiap tetangga dalam *voting*. Bisa 'uniform' (semua tetangga punya bobot sama) atau 'distance' (tetangga yang lebih dekat punya pengaruh lebih besar).
+
+#### **Kelebihan**
+* Sangat mudah dipahami dan diimplementasikan.
+* Tidak memerlukan fase pelatihan eksplisit, membuatnya cepat untuk mulai digunakan (*lazy learner*).
+* Secara alami dapat menangani masalah klasifikasi multi-kelas.
+
+#### **Kekurangan**
+* Proses prediksi bisa menjadi sangat lambat dan mahal secara komputasi pada dataset besar.
+* Sangat sensitif terhadap skala fitur, sehingga standardisasi atau normalisasi data adalah langkah wajib.
+* Performa menurun drastis pada data berdimensi tinggi (*curse of dimensionality*).
+
+### **5. Gradient Boosting Machines (GBM)**
+Gradient Boosting adalah teknik *ensemble* yang membangun model secara sekuensial, di mana setiap model baru berfokus untuk memperbaiki kesalahan dari model sebelumnya.
+
+#### **Cara Kerja**
+* **Model Awal**: Proses dimulai dengan model sederhana, sering kali hanya prediksi rata-rata dari nilai target.
+* **Pembelajaran Iteratif**: Secara iteratif, algoritma melatih model baru (biasanya pohon keputusan) untuk memprediksi *residual* (selisih antara nilai aktual dan prediksi) dari model sebelumnya.
+* **Pembaruan Model**: Prediksi dari model baru ini kemudian ditambahkan ke prediksi model gabungan sebelumnya, disesuaikan dengan *learning rate* untuk mencegah *overfitting*. Proses ini pada dasarnya adalah penurunan gradien pada fungsi kerugian.
+
+#### **Parameter**
+* **n\_estimators**: Jumlah total model (pohon) yang akan dibangun secara berurutan.
+* **learning\_rate**: Faktor penyusutan (antara 0 dan 1) yang mengontrol seberapa besar kontribusi setiap pohon terhadap hasil akhir.
+* **max\_depth**: Kedalaman maksimum dari setiap pohon keputusan individu untuk mengontrol kompleksitas model.
+* **subsample**: Fraksi dari sampel pelatihan yang digunakan untuk melatih setiap pohon, menambahkan unsur keacakan (Stochastic Gradient Boosting).
+
+#### **Kelebihan**
+* Sering kali menghasilkan akurasi prediksi yang sangat tinggi, salah satu yang terbaik di kelasnya.
+* Sangat fleksibel dan dapat dioptimalkan untuk berbagai fungsi kerugian.
+
+#### **Kekurangan**
+* Rentan terhadap *overfitting* jika tidak di-tuning dengan hati-hati (terutama `n_estimators` dan `learning_rate`).
+* Pelatihan bisa lambat karena sifatnya yang sekuensial (tidak dapat diparalelkan).
+* Lebih sulit untuk diinterpretasikan dibandingkan model yang lebih sederhana.
+
+### **6. Gaussian Naive Bayes (GNB)**
+Naive Bayes adalah klasifikasi probabilistik yang didasarkan pada Teorema Bayes dengan asumsi "naif" bahwa semua fitur bersifat independen satu sama lain. Varian Gaussian digunakan ketika fitur-fitur bersifat kontinu dan diasumsikan mengikuti distribusi normal (Gaussian).
+
+#### **Cara Kerja**
+* **Teorema Bayes**: Model ini menghitung probabilitas posterior $P(Kelas | Fitur)$, yaitu probabilitas sebuah data masuk ke kelas tertentu dengan adanya fitur-fitur tersebut.
+* **Asumsi Independensi Naif**: Diasumsikan bahwa setiap fitur memberikan kontribusi independen terhadap probabilitas. Ini menyederhanakan perhitungan menjadi: $P(Kelas | Fitur) \propto P(Kelas) \times \prod_{i=1}^{n} P(Fitur_i | Kelas)$.
+* **Distribusi Gaussian**: Untuk fitur kontinu, probabilitas $P(Fitur_i | Kelas)$ dihitung menggunakan rumus Probability Density Function (PDF) dari distribusi Gaussian, yang memerlukan rata-rata dan varians dari setiap fitur untuk setiap kelas.
+
+#### **Parameter**
+* Gaussian Naive Bayes hampir tidak memiliki *hyperparameter* untuk di-tuning. Parameter utamanya (rata-rata dan varians untuk setiap fitur per kelas) dipelajari langsung dari data pelatihan.
+* **var\_smoothing**: Sejumlah kecil nilai yang ditambahkan ke varians untuk tujuan stabilitas numerik, terutama jika ada varians yang bernilai nol.
+
+#### **Kelebihan**
+* Sangat cepat, efisien, dan bekerja dengan baik pada dataset yang sangat besar.
+* Memerlukan data pelatihan yang relatif sedikit.
+* Berkinerja baik bahkan jika asumsi independensi tidak sepenuhnya terpenuhi.
+
+#### **Kekurangan**
+* Asumsi independensi yang "naif" adalah kelemahan utamanya, karena fitur di dunia nyata seringkali saling terkait.
+* Jika ada kategori dalam data uji yang tidak ada dalam data latih, model akan memberikan probabilitas nol dan gagal membuat prediksi (masalah *zero-frequency*).
+
+## **Evaluation**
+Metrik evaluasi yang digunakan untuk mengukur performa model adalah:
+
+* **Accuracy (Akurasi)**: Mengukur proporsi prediksi yang benar dari keseluruhan jumlah data.
   
-      Jenis | Keterangan
-    --- | ---
-    Sumber | [Kaggle Dataset : Cancer Breast Dataset](https://www.kaggle.com/datasets/yasserh/breast-cancer-dataset)
-    Lisensi | CCO: Public Domain
-    Kategori | Cancer, Women, Healthcare
-    Usability | 10.00
-    Expected update frequency | Annually
-    Tags | Cancer, Tabular, Classification, Healthcare, Binary, Classification
 
-  * **Informasi Data:** Dataset ini memiliki **569 baris (sampel)** dan **33 kolom** pada awalnya. Pemeriksaan awal menggunakan `df.info()` mengonfirmasi bahwa terdapat satu kolom (`Unnamed: 32`) yang sepenuhnya kosong dan kolom `id` yang tidak relevan untuk pemodelan, keduanya kemudian dihapus. Setelah pembersihan, data dalam kondisi sangat baik dan tidak memiliki nilai yang hilang (*missing values*), sehingga proses imputasi data tidak diperlukan.
+    $$Accuracy =  \frac{TP + TN}{TP + TN + FP + FN}$$
+  
+    *Keterangan: TP = True Positive, TN = True Negative, FP = False Positive, FN = False Negative*
 
-#### **Variabel atau Fitur**
------
-Variabel pada dataset ini mencakup:
+* **Precision (Presisi)**: Mengukur seberapa banyak dari prediksi positif yang benar-benar positif.
 
-  * `diagnosis`: Variabel target (dependen) yang bersifat kategorikal, dengan dua nilai: 'M' untuk *Malignant* (Ganas) dan 'B' untuk *Benign* (Jinak).
-  * **30 Fitur Prediktif Numerik:** Fitur-fitur ini adalah pengukuran kuantitatif dari karakteristik inti sel dan terbagi menjadi tiga set pengukuran untuk setiap 10 properti dasar:
-      * **Properti Dasar:** `radius`, `texture`, `perimeter`, `area`, `smoothness`, `compactness`, `concavity`, `concave points`, `symmetry`, dan `fractal_dimension`.
-      * **Set Pengukuran:**
-        1.  **Nilai Rata-rata (`_mean`):** Menunjukkan nilai rata-rata dari properti dasar tersebut untuk sebuah sampel.
-        2.  **Standar Error (`_se`):** Menunjukkan standar error dari pengukuran properti dasar.
-        3.  **Nilai Terburuk/Terbesar (`_worst`):** Menunjukkan rata-rata dari tiga nilai terbesar dari properti dasar tersebut.
+   $$Precision =  \frac{TP}{TP + FP}$$
 
-#### **Exploratory Data Analysis (EDA)**
------
-Analisis eksplorasi data yang mendalam dilakukan untuk menggali wawasan dari dataset:
+* **Recall (Sensitivitas)**: Mengukur seberapa banyak dari data positif yang sebenarnya berhasil diidentifikasi oleh model.
 
-1.  **Distribusi Kelas Target:** Hasil dari `value_counts()` pada kolom `diagnosis` menunjukkan distribusi sebanyak **357 (62.7%)** sampel jinak dan **212 (37.3%)** sampel ganas. Adanya ketidakseimbangan kelas ini, meskipun tidak ekstrem, perlu menjadi perhatian saat evaluasi model, di mana metrik selain akurasi (seperti F1-score) menjadi lebih penting.
-2.  **Matriks Korelasi:** Visualisasi *heatmap* korelasi antar fitur numerik mengungkapkan adanya tingkat multikolinearitas yang sangat tinggi di antara beberapa fitur. Sebagai contoh, `radius_mean`, `perimeter_mean`, dan `area_mean` memiliki koefisien korelasi mendekati 1. Ini mengindikasikan bahwa fitur-fitur ini membawa informasi yang sangat mirip (redundan), sebuah karakteristik yang dapat memengaruhi beberapa jenis model, namun tetap dipertahankan pada tahap awal untuk analisis yang komprehensif.
+   $$Recall =  \frac{TP}{TP + FN}$$
 
+* **F1-Score**: Rata-rata harmonik dari *precision* dan *recall*, memberikan keseimbangan antara keduanya.
 
+   $$F1-Score = 2  \times \frac{Precision \times Recall}{Precision + Recall}$$
+  
+  
 
-### **Data Preparation**
------
-Sebelum tahap pemodelan, serangkaian langkah persiapan data yang krusial dilakukan secara berurutan untuk memastikan kualitas dan kompatibilitas data.
+### **Hasil Metrik Evaluasi**
 
-1.  **Encoding Variabel Target (Label Encoding)**
-      * **Proses Pelaksanaan:** Nilai teks pada kolom target `diagnosis` ('M' dan 'B') ditransformasikan menjadi nilai numerik integer menggunakan metode pemetaan kamus (dictionary mapping) pada pandas.
-      * **Alasan Diperlukan:** Sebagian besar algoritma *machine learning* tidak dapat memproses data dalam format string. Transformasi ini adalah prasyarat mutlak untuk memungkinkan model mempelajari hubungan antara fitur dan target.
-      * **Kode Snippet:**
-        ```python
-        df['diagnosis'] = df['diagnosis'].map({'M': 1, 'B': 0})
-        ```
-2.  **Pemisahan Fitur dan Target (Feature-Target Split)**
-      * **Proses Pelaksanaan:** Dataset dibagi menjadi dua entitas terpisah: sebuah DataFrame `X` yang berisi semua fitur prediktif (variabel independen), dan sebuah Series `y` yang berisi variabel target (variabel dependen).
-      * **Alasan Diperlukan:** Ini adalah praktik standar untuk mendefinisikan dengan jelas input dan output dari model *machine learning*, memfasilitasi proses pelatihan dan evaluasi yang terstruktur.
-3.  **Pembagian Data Latih dan Uji (Train-Test Split)**
-      * **Proses Pelaksanaan:** Keseluruhan dataset dibagi secara acak menjadi data latih (80% dari data) dan data uji (20% dari data) menggunakan fungsi `train_test_split` dari Scikit-learn, dengan `random_state` ditetapkan untuk reprodusibilitas.
-      * **Alasan Diperlukan:** Langkah ini sangat fundamental untuk evaluasi model yang valid. Model dilatih hanya pada data latih dan kemudian kinerjanya diuji pada data uji yang belum pernah "dilihat" sebelumnya, sehingga memberikan estimasi yang tidak bias tentang bagaimana model akan berkinerja pada data baru di dunia nyata.
-4.  **Standardisasi Fitur (Feature Scaling)**
-      * **Proses Pelaksanaan:** Teknik `StandardScaler` diterapkan untuk mentransformasikan distribusi setiap fitur dalam data latih dan data uji sehingga memiliki rata-rata (mean) 0 dan standar deviasi 1.
-      * **Alasan Diperlukan:** Standardisasi memastikan bahwa semua fitur berada pada skala yang sebanding. Ini sangat penting untuk algoritma yang sensitif terhadap skala, seperti SVM (yang berbasis jarak), KNN, dan Logistic Regression (yang menggunakan regularisasi), karena mencegah fitur dengan rentang nilai besar mendominasi proses pembelajaran secara tidak adil.
+Berdasarkan hasil pengujian pada 114 data uji, performa dari masing-masing model dirangkum dalam tabel berikut. Kelas 0 adalah Jinak (*Benign*), dan Kelas 1 adalah Ganas (*Malignant*).
 
-### **Modeling**
------
-Tahap pemodelan melibatkan implementasi, pelatihan, dan perbandingan enam algoritma klasifikasi yang berbeda. Pendekatan ini dipilih untuk memastikan bahwa solusi akhir didasarkan pada perbandingan empiris yang luas, bukan pada pilihan satu algoritma tunggal.
-
-| Algoritma | Kelebihan | Kekurangan |
-| :--- | :--- | :--- |
-| **Random Forest** | Sangat kuat dalam menangani hubungan non-linear, memiliki ketahanan yang baik terhadap *overfitting*, dan dapat menangani data dalam jumlah besar. | Cenderung menjadi model "kotak hitam" yang sulit diinterpretasikan, dan memerlukan lebih banyak sumber daya komputasi dibandingkan pohon keputusan tunggal. |
-| **K-Nearest Neighbors (KNN)** | Sangat sederhana untuk dipahami dan diimplementasikan, bersifat non-parametrik sehingga tidak membuat asumsi tentang distribusi data. | Kinerjanya sangat sensitif terhadap pilihan nilai 'k' dan skala fitur, serta bisa menjadi sangat lambat pada saat prediksi jika data latih sangat besar. |
-| **Support Vector Machine (SVM)** | Sangat efektif di ruang fitur berdimensi tinggi dan fleksibel berkat penggunaan berbagai jenis kernel untuk menangani batas keputusan linear maupun non-linear. | Memerlukan penskalaan data yang cermat, dan pilihan parameter (seperti `C` dan `gamma`) dapat secara drastis memengaruhi kinerja model. |
-| **Gradient Boosting Machine (GBM)**| Seringkali memberikan akurasi prediktif tertinggi di antara model *ensemble*, karena sifatnya yang membangun model secara sekuensial untuk memperbaiki kesalahan. | Sangat rentan terhadap *overfitting* jika tidak di-tuning dengan hati-hati, dan proses pelatihannya bisa memakan waktu yang cukup lama. |
-| **Logistic Regression**| Cepat, efisien secara komputasi, dan hasilnya sangat mudah diinterpretasikan karena koefisien fitur menunjukkan hubungan langsung dengan probabilitas output. | Kinerjanya terbatas karena hanya mampu memodelkan batas keputusan yang linear, sehingga kurang efektif untuk masalah yang kompleks secara inheren. |
-| **Gaussian Naive Bayes**| Sangat cepat dalam pelatihan dan prediksi, bekerja dengan baik bahkan dengan jumlah data yang relatif kecil. | Kinerjanya sangat bergantung pada asumsi independensi antar fitur, yang seringkali tidak terpenuhi dalam data dunia nyata dan dapat membatasi akurasinya. |
-
-Setiap model dilatih menggunakan implementasi dari *library* Scikit-learn dengan parameter *default*-nya. Ini bertujuan untuk menciptakan sebuah *baseline* kinerja yang adil dan konsisten untuk semua algoritma, sebelum dilakukan evaluasi untuk memilih model terbaik sebagai solusi akhir.
+| Model | Accuracy | F1-Score (Kelas 0) | Precision (Kelas 0) | Recall (Kelas 0) | F1-Score (Kelas 1) | Precision (Kelas 1) | Recall (Kelas 1) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Random Forest** | **0.9736842105263158** | **0.9774436090225563** | 0.9701492537313433 | 0.9848484848484849 | **0.968421052631579** | 0.9787234042553191 | 0.9583333333333334 |
+| **Logistic Regression**| **0.9736842105263158** | **0.9774436090225563** | 0.9701492537313433 | 0.9848484848484849 | **0.968421052631579** | 0.9787234042553191 | 0.9583333333333334 |
+| K-Nearest Neighbor | 0.9649122807017544 | 0.9705882352941176 | 0.9428571428571428 | 1.0 | 0.9565217391304348 | 1.0 | 0.9166666666666666 |
+| Gradient Boosting | 0.9649122807017544 | 0.9705882352941176 | 0.9428571428571428 | 1.0 | 0.9565217391304348 | 1.0 | 0.9166666666666666 |
+| Support Vector Machine| 0.956140350877193 | 0.9624060150375939 | 0.9552238805970149 | 0.9696969696969697| 0.9473684210526315 | 0.9574468085106383 | 0.9375 |
+| Gaussian Naive Bayes | 0.9298245614035088 | 0.9393939393939394 | 0.9393939393939394 | 0.9393939393939394| 0.9166666666666666 | 0.9166666666666666 | 0.9166666666666666 |
 
 
-
-### **Evaluation**
------
-Tahap evaluasi berfokus pada pengukuran kinerja kuantitatif dari setiap model yang telah dilatih menggunakan data uji. Pemilihan metrik evaluasi disesuaikan dengan konteks masalah klasifikasi medis, di mana dampak dari jenis kesalahan tertentu harus dipertimbangkan secara cermat.
-
-#### **Penjelasan Metrik**
------
-  * **Akurasi (*Accuracy*):** Metrik ini mengukur proporsi keseluruhan dari prediksi yang benar (baik *True Positive* maupun *True Negative*) terhadap jumlah total sampel. Meskipun memberikan gambaran umum, metrik ini bisa memberikan pandangan yang terlalu optimis pada dataset yang tidak seimbang.
- $$\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
-
-  * **Presisi (*Precision*):** Metrik ini menjawab pertanyaan: "Dari semua sampel yang diprediksi sebagai 'Ganas', berapa persen yang sebenarnya benar-benar 'Ganas'?". Presisi tinggi penting untuk menghindari diagnosis positif yang salah.
-$$\text{Precision} = \frac{TP}{TP + FP}$$
-
-  * **Recall (Sensitivity atau True Positive Rate):** Metrik ini menjawab pertanyaan: "Dari semua sampel yang sebenarnya 'Ganas', berapa persen yang berhasil diidentifikasi oleh model?". Dalam konteks diagnosis medis, **Recall adalah metrik yang paling krusial**, karena kegagalan mengidentifikasi kasus ganas (*False Negative*) memiliki konsekuensi yang jauh lebih berat daripada kesalahan sebaliknya.
-$$\text{Recall} = \frac{TP}{TP + FN}$$
-  * **F1-Score:** Metrik ini adalah rata-rata harmonik dari Presisi dan *Recall*, memberikan sebuah nilai tunggal yang menyeimbangkan kedua metrik tersebut. F1-Score sangat berguna ketika terdapat ketidakseimbangan kelas atau ketika ada kebutuhan untuk menyeimbangkan antara *False Positive* dan *False Negative*.
-              $$\text{F1-Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$$
-
-*Keterangan: TP = True Positive, TN = True Negative, FP = False Positive, FN = False Negative.*
+### **Apakah solusi yang dikembangkan sudah menjawab setiap problem statement, berhasil mencapai seluruh goals yang diharapkan, dan memberikan dampak sesuai dengan solusi yang direncanakan? Jelaskan?**
+- **Problem Statement**: Model berhasil menjawab tantangan untuk memprediksi diagnosis tumor (ganas atau jinak) dan secara kuantitatif menentukan algoritma klasifikasi mana yang paling optimal.
+- **Goals Tercapai**: Ya, beberapa model klasifikasi berhasil dibangun dan dievaluasi secara komprehensif, dengan Random Forest serta Logistic Regression teridentifikasi sebagai yang paling efektif berdasarkan metrik evaluasi.
+- **Dampak Solusi**: Penggunaan berbagai algoritma memungkinkan perbandingan objektif untuk menemukan solusi terbaik, sementara pemakaian metrik evaluasi yang beragam (accuracy, precision, dll.) memastikan model yang terpilih terbukti andal dan seimbang dalam kemampuannya mendeteksi kedua kelas.
 
 
-#### **Hasil Evaluasi Proyek**
------
-Hasil pengujian keenam model pada data uji menunjukkan bahwa **Gradient Boosting Machine (GBM)** secara konsisten memberikan kinerja terbaik.
-
-| Model | Accuracy | F1-Score (Ganas) | Precision (Ganas) | Recall (Ganas) |
-| :--- | :---: | :---: | :---: | :---: |
-| **GBM** | **0.982** | **0.976** | **0.976** | **0.976** |
-| Random Forest | 0.965 | 0.952 | 0.952 | 0.952 |
-| SVM | 0.974 | 0.965 | 0.955 | 0.976 |
-| Logistic Regression| 0.974 | 0.965 | 0.955 | 0.976 |
-| KNN | 0.947 | 0.925 | 0.950 | 0.902 |
-| Gaussian NB | 0.956 | 0.940 | 0.930 | 0.952 |
-
-*(Catatan: Nilai pada tabel ini adalah representasi berdasarkan hasil dari notebook yang diunggah. Nilai eksak dapat bervariasi pada setiap eksekusi karena randomness pada train\_test\_split).*
-
-#### **Pemilihan Model Terbaik**
------
-Berdasarkan analisis hasil evaluasi yang mendalam, model **Gradient Boosting Machine (GBM)** secara definitif dipilih sebagai solusi terbaik untuk proyek ini. Justifikasi untuk keputusan ini didasarkan pada beberapa poin kunci:
-
-1.  **Kinerja Puncak pada Metrik Kritis:** GBM mencapai nilai **Recall tertinggi (0.976)** untuk kelas "Ganas", setara dengan SVM dan Logistic Regression, yang menunjukkan kemampuannya yang luar biasa dalam mengidentifikasi hampir semua kasus kanker yang sebenarnya.
-2.  **Keseimbangan Performa Unggul:** Yang membedakan GBM adalah kemampuannya untuk mencapai *Recall* tinggi tanpa mengorbankan Presisi. Dengan **F1-Score tertinggi (0.976)**, GBM menunjukkan keseimbangan terbaik antara meminimalkan *False Negative* dan *False Positive*, menjadikannya model yang paling andal secara keseluruhan.
-3.  **Akurasi Tertinggi:** Dengan **Akurasi 98.2%**, model ini juga terbukti paling akurat secara umum.
-
-Kombinasi dari akurasi superior dan kinerja seimbang pada metrik yang paling relevan dengan keselamatan pasien menjadikan Gradient Boosting Machine sebagai pilihan yang paling kuat dan dapat dipertanggungjawabkan untuk aplikasi prediksi diagnosis kanker payudara ini.
-
-
-
-
-
-
-## Struktur Direktori Proyek
-
-```
-Predictive Analytics Breast Cancer 2025
-├── a_predictive_analytics_breast_cancer.ipynb
-├── a_predictive_analytics_breast_cancer.py
-├── breast-cancer.csv
-└── README.md
-```
-
-## Cara Menjalankan Proyek
-
-1.  **Clone Repositori:**
-    ```bash
-    git clone https://github.com/[NAMA_USER_ANDA]/[NAMA_REPOSITORI_ANDA].git
-    cd [NAMA_REPOSITORI_ANDA]
-    ```
-
-2.  **Instalasi Dependensi:**
-    Pastikan Anda memiliki pustaka Python yang diperlukan. Anda bisa menginstalnya menggunakan pip.
-    ```bash
-    pip install numpy pandas scikit-learn matplotlib seaborn jupyter
-    pip install xgboost lightgbm
-    ```
-
-3.  **Jalankan Notebook:**
-    Buka dan jalankan file `a_predictive_analytics_breast_cancer.ipynb` menggunakan Jupyter Notebook atau JupyterLab. Pastikan file dataset `Breast_Cancer.csv` berada di direktori yang sama.
+## **Kesimpulan**
+Dari proyek yang telah dilaksanakan, dapat disimpulkan bahwa *machine learning* dapat diterapkan secara efektif untuk memprediksi diagnosis kanker payudara dengan akurasi yang sangat tinggi. Di antara enam model yang dievaluasi, **Random Forest** dan **Logistic Regression** menjadi yang paling unggul dengan performa identik, mencapai akurasi sebesar 0.9736842105263158 pada data uji. Keduanya hanya salah mengklasifikasikan 3 dari 114 kasus uji. Tingkat akurasi yang tinggi ini menegaskan bahwa solusi prediktif berbasis data dapat menjadi aset berharga dalam bidang medis untuk mendukung deteksi dini kanker payudara.
