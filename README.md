@@ -33,24 +33,63 @@ Dataset ini memiliki 569 baris data dan 32 kolom.
 Kondisi dataset sangat baik, terbukti dengan tidak adanya nilai yang hilang (*missing value*) pada seluruh kolom. Dataset ini terdiri dari 31 kolom numerik (30 `float64` dan 1 `int64`) dan 1 kolom `object` yaitu `diagnosis` yang menjadi target prediksi.
 
 ### **Variabel-variabel pada dataset adalah sebagai berikut:**
-* `diagnosis`: Variabel target yang menunjukkan hasil diagnosis (M = Malignant/Ganas, B = Benign/Jinak).
+
+## Fitur Utama 
+
+* `diagnosis`: **Variabel target** yang menunjukkan hasil diagnosis (**M** = Malignant/Ganas, **B** = Benign/Jinak).
 * `radius_mean`: Rata-rata jari-jari dari inti sel tumor.
-* `texture_mean`: Rata-rata tekstur, diukur dari standar deviasi nilai *grayscale*.
+* `texture_mean`: Rata-rata tekstur (standar deviasi nilai *grayscale*).
 * `perimeter_mean`: Rata-rata keliling inti sel.
 * `area_mean`: Rata-rata luas inti sel.
 * `smoothness_mean`: Rata-rata kehalusan kontur inti sel.
-* `compactness_mean`: Rata-rata tingkat kepadatan inti sel.
+* `compactness_mean`: Rata-rata tingkat kepadatan inti sel (keliling² / luas — 1.0).
 * `concavity_mean`: Rata-rata tingkat kecekungan pada kontur inti sel.
 * `concave points_mean`: Rata-rata jumlah titik cekung pada kontur.
 * `symmetry_mean`: Rata-rata simetri inti sel.
-* `fractal_dimension_mean`: Rata-rata dimensi fraktal dari kontur.
-* Fitur lainnya dengan akhiran `_se` (*standard error*) dan `_worst` (nilai terburuk) adalah pengukuran statistik turunan dari 10 fitur utama di atas.
+* `fractal_dimension_mean`: Rata-rata dimensi fraktal dari kontur ("coastline approximation — 1").
+
+### Fitur Turunan
+
+Selain fitur utama, dataset ini juga mencakup pengukuran statistik turunan untuk ke-10 fitur di atas, yang direpresentasikan dengan akhiran:
+
+* `_se`: **Standard Error** (contoh: `radius_se`, `texture_se`, dll.).
+* `_worst`: Nilai **terburuk** atau terbesar yang dihitung dari mean terbesar (contoh: `radius_worst`, `texture_worst`, dll.).
+
+### Fitur yang Dihilangkan
+
+* `id`: Parameter unik untuk identifikasi, **tidak relevan** untuk pemodelan dan akan dihilangkan dari dataset.
+
+---
 
 ## **Data Preparation**
-Pada bagian ini, dilakukan beberapa teknik persiapan data secara berurutan sebagai berikut:
-* **Encoding Variabel Kategorikal**: Melakukan pemetaan (*mapping*) pada kolom target `diagnosis`, di mana nilai 'B' diubah menjadi 0 dan 'M' menjadi 1 agar dapat diproses oleh model.
-* **Pembagian Data**: Memisahkan data menjadi data latih dan data uji dengan rasio 80:20 menggunakan `train_test_split`. Dari total 569 sampel, 455 dialokasikan untuk pelatihan dan 114 untuk pengujian.
-* **Standardisasi**: Menerapkan `StandardScaler` pada data fitur (data latih dan uji) untuk menyamakan skala nilai antar fitur, yang penting untuk performa model seperti SVM dan Logistic Regression.
+
+### 1. Penanganan Fitur Target (`diagnosis`)
+
+* **Pengecekan Fitur Target**: Kolom `diagnosis` merupakan fitur target berjenis *object*. Kategori `B` (Benign) mengindikasikan kanker jinak, sementara `M` (Malignant) mengindikasikan kanker ganas. Fitur inilah yang akan menjadi target prediksi dalam proyek ini.
+* **Encoding Numerik**: Untuk memungkinkan model memahami fitur ini, kami mengubah tipe data `diagnosis` dari *object* ke numerik. Kanker jinak (`B`) di-*mapping* menjadi `0`, dan kanker ganas (`M`) di-*mapping* menjadi `1`.
+* **Distribusi Kelas**: Setelah *mapping*, dilakukan perhitungan jumlah baris untuk setiap kategori pada kolom target untuk melihat distribusinya.
+
+### 2. Pembagian Dataset
+
+Dataset dibagi menjadi dua bagian:
+
+* **Data Latih (80%)**: Digunakan untuk melatih model agar dapat mempelajari pola dari data.
+* **Data Uji (20%)**: Digunakan untuk menguji performa model yang telah dilatih pada data yang belum pernah dilihat sebelumnya.
+
+Pembagian ini dilakukan menggunakan fungsi `train_test_split` dari pustaka `scikit-learn`.
+
+### 3. Standardisasi Data
+
+Semua fitur numerik dalam dataset distandardisasi. Proses ini bertujuan untuk membuat semua fitur berada dalam skala yang seragam (biasanya dengan rata-rata 0 dan standar deviasi 1). Standardisasi dilakukan menggunakan `StandardScaler` dari `scikit-learn` dengan rumus:
+
+$$z = \frac{(x - \mu)}{\sigma}$$
+
+di mana:
+* $z$ adalah nilai terstandardisasi
+* $x$ adalah nilai fitur asli
+* $\mu$ adalah rata-rata fitur
+* $\sigma$ adalah standar deviasi fitur
+
 
 ## **Modeling**
 Model yang digunakan untuk proyek ini dijelaskan secara rinci sebagai berikut.
@@ -219,14 +258,17 @@ Metrik evaluasi yang digunakan untuk mengukur performa model adalah:
 
 Berdasarkan hasil pengujian pada 114 data uji, performa dari masing-masing model dirangkum dalam tabel berikut. Kelas 0 adalah Jinak (*Benign*), dan Kelas 1 adalah Ganas (*Malignant*).
 
-| Model | Accuracy | F1-Score (Kelas 0) | Precision (Kelas 0) | Recall (Kelas 0) | F1-Score (Kelas 1) | Precision (Kelas 1) | Recall (Kelas 1) |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Random Forest** | **0.973684** | **0.977778** | 0.956522 | 1.000000 | **0.967742** | 1.000000 | 0.937500 |
-| **Logistic Regression**| **0.973684** | **0.977444** | 0.970149 | 0.984848 | **0.968421** | 0.978723 | 0.958333 |
-| K-Nearest Neighbor | 0.964912 | 0.970588 | 0.942857 | 1.000000 | 0.956522 | 1.000000 | 0.916667 |
-| Gradient Boosting | 0.964912 | 0.970588 | 0.942857 | 1.000000 | 0.956522 | 1.000000 | 0.916667 |
-| Support Vector Machine| 0.956140 | 0.962406 | 0.955224 | 0.969697 | 0.947368 | 0.957447 | 0.937500 |
-| Gaussian Naive Bayes | 0.929825 | 0.939394 | 0.939394 | 0.939394 | 0.916667 | 0.916667 | 0.916667 |
+| Model               | Accuracy | Class 0 - F1-Score | Class 0 - Precision | Class 0 - Recall | Class 1 - F1-Score | Class 1 - Precision | Class 1 - Recall |
+| :------------------ | :------- | :----------------- | :------------------ | :--------------- | :----------------- | :------------------ | :--------------- |
+| **Random Forest (RF)** | **0.973684** | 0.977778           | 0.956522            | 1.000000         | 0.967742           | 1.000000            | 0.937500         |
+| **Logistic Regression** | **0.973684** | 0.977444           | 0.970149            | 0.984848         | 0.968421           | 0.978723            | 0.958333         |
+| **K-Nearest Neighbors (KNN)** | 0.964912 | 0.970588           | 0.942857            | 1.000000         | 0.956522           | 1.000000            | 0.916667         |
+| **Support Vector Machine (SVM)** | 0.964912 | 0.970149           | 0.955882            | 0.984848         | 0.957447           | 0.978261            | 0.937500         |
+| **Gradient Boosting Machine (GBM)** | 0.964912 | 0.970588           | 0.942857            | 1.000000         | 0.956522           | 1.000000            | 0.916667         |
+| **Gaussian Naive Bayes** | 0.938596 | 0.947368           | 0.940299            | 0.954545         | 0.926316           | 0.936170            | 0.916667         |
+
+---
+---
 
 
 ### **Apakah solusi yang dikembangkan sudah menjawab setiap problem statement, berhasil mencapai seluruh goals yang diharapkan, dan memberikan dampak sesuai dengan solusi yang direncanakan? Jelaskan?**
