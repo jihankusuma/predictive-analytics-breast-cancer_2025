@@ -59,7 +59,27 @@ Selain fitur utama, dataset ini juga mencakup pengukuran statistik turunan untuk
 
 * `id`: Parameter unik untuk identifikasi, **tidak relevan** untuk pemodelan dan akan dihilangkan dari dataset.
 
----
+## Persiapan Data & Eksplorasi Awal
+
+Sebelum melangkah ke visualisasi dan pemodelan,  melakukan beberapa langkah persiapan dan eksplorasi dasar pada dataset:
+
+### 1. Memuat Dataset
+
+Dataset dimuat ke dalam sebuah DataFrame menggunakan pustaka `pandas` untuk memudahkan manipulasi dan analisis data.
+
+### 2. Memeriksa Struktur Data
+
+Kami memeriksa struktur kolom dalam dataset menggunakan `df.info()`. Ini membantu kami memahami tipe data masing-masing kolom dan memastikan konsistensinya.
+
+### 3. Penanganan Nilai Hilang
+
+Untuk memastikan integritas data, kami memeriksa keberadaan nilai-nilai yang hilang di setiap kolom menggunakan `df.isna().sum()`. Dalam dataset ini, tidak ditemukan nilai yang kosong, sehingga tidak diperlukan penanganan khusus.
+
+### 4. Statistik Deskriptif
+
+ Memperoleh ringkasan statistik deskriptif dari dataset menggunakan `df.describe()`. Ini memberikan gambaran cepat tentang distribusi data, termasuk rata-rata, median, kuartil (Q1, Q2, Q3), dan rentang nilai untuk setiap fitur numerik.
+
+
 
 ## **Data Preparation**
 
